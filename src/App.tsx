@@ -4,13 +4,13 @@ import { ICheckbox, IRadioButton, ITextInput } from "./types";
 
 function App() {
   const payload = [
-    // {
-    //   type: "header",
-    //   id: "4",
-    //   label: "The following is that",
-    //   description:
-    //     "This is the lorum ipsum This is the description an this is very long blah blaj This is the description an this is very long blah blaj",
-    // },
+    {
+      type: "header",
+      id: "4s",
+      label: "The following is that",
+      description:
+        "This is the lorum ipsum This is the description an this is very long blah blaj This is the description an this is very long blah blaj",
+    },
     {
       id: "1222as",
       type: "text",
@@ -18,12 +18,11 @@ function App() {
       isTextArea: true,
       description: "This is the description an this is very long blah blaj",
       validation: {
-        required: true,
         minLength: 2,
         maxLength: 10,
       },
     } as ITextInput,
-    // { type: "text", id: "2" },
+    { type: "text", id: "2sss" },
     {
       type: "checkbox",
       id: "checkbox-3",

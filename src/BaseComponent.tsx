@@ -14,7 +14,6 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { FieldRenderProps } from "react-final-form";
-import createValidatorMap from "./BaseValidator";
 import { IComponent, IFileInput, IRadioButton, ITextInput } from "./types";
 
 export interface IBaseComponentOutput {
@@ -66,7 +65,10 @@ export function B_CheckboxComponent(): IBaseComponentOutput {
       const isInvalid = Boolean(error && touched);
 
       return (
-        <FormControl isInvalid={isInvalid}>
+        <FormControl
+          isRequired={Boolean(payload?.validation?.required)}
+          isInvalid={isInvalid}
+        >
           <FormLabel htmlFor={id}>{label}</FormLabel>
           <FormHelperText pb={2.5}>{description}</FormHelperText>
           <HStack align={"center"}>
@@ -97,7 +99,10 @@ export function B_FileInput(): IBaseComponentOutput {
       const { label, description } = payload;
       const isInvalid = Boolean(error && touched);
       return (
-        <FormControl isInvalid={isInvalid}>
+        <FormControl
+          isRequired={Boolean(payload?.validation?.required)}
+          isInvalid={isInvalid}
+        >
           {label && <FormLabel htmlFor={id}>{label}</FormLabel>}
           <FormHelperText pb={2.5}>{description}</FormHelperText>
           <Input
@@ -131,7 +136,10 @@ export function B_RadioInput(): IBaseComponentOutput {
       const isInvalid = Boolean(error && touched);
 
       return (
-        <FormControl isInvalid={isInvalid}>
+        <FormControl
+          isRequired={Boolean(payload?.validation?.required)}
+          isInvalid={isInvalid}
+        >
           {payload.label && <FormLabel htmlFor={id}>{label}</FormLabel>}
           <FormHelperText pb={2.5}>{description}</FormHelperText>
           <RadioGroup onChange={onChange} value={value}>
@@ -168,7 +176,10 @@ export function B_TextInput() {
       const isInvalid = Boolean(error && touched);
 
       return (
-        <FormControl isInvalid={isInvalid}>
+        <FormControl
+          isRequired={Boolean(payload?.validation?.required)}
+          isInvalid={isInvalid}
+        >
           {label && <FormLabel htmlFor={id}>{label}</FormLabel>}
           <FormHelperText pb={2.5}>{description}</FormHelperText>
           {!isTextArea && (

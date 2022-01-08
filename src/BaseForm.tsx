@@ -1,4 +1,4 @@
-import { Grid } from "@chakra-ui/react";
+import { Box, Button, ChakraProvider, Grid } from "@chakra-ui/react";
 import { Form } from "react-final-form";
 import createComponentMap, { IBaseComponentOutput } from "./BaseComponent";
 import createValidatorMap, { IValidatorOutput } from "./BaseValidator";
@@ -46,28 +46,34 @@ function BaseForm({
       const { validateFunc, dataType } = vali[key];
       if (!dataType || dataType.length <= 0)
         throw "Validator data type is missing";
+      if (!Boolean(validateFunc))
+        throw `Validator function for ${key} is missing`;
       if (dataType.includes(typeof inputValue) || dataType[0] === "any")
         return validateFunc(inputValue, validationValue, id);
     }
   };
 
   return (
-    <Form
-      onSubmit={onSubmit}
-      validate={validate}
-      render={({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-          <Grid
-            gap={4}
-            templateColumns="repeat(2, 1fr)"
-            children={validFields?.map((payload: IComponent) => (
-              <BaseWrapper payload={payload} comp={comp} />
-            ))}
-          />
-          <button type="submit">Submit</button>
-        </form>
-      )}
-    />
+    <ChakraProvider>
+      <Form
+        onSubmit={onSubmit}
+        validate={validate}
+        render={({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Grid
+              gap={4}
+              templateColumns="repeat(2, 1fr)"
+              children={validFields?.map((payload: IComponent) => (
+                <BaseWrapper key={payload.id} payload={payload} comp={comp} />
+              ))}
+            />
+            <Box pt={5}>
+              <Button type="submit">Submit</Button>
+            </Box>
+          </form>
+        )}
+      />
+    </ChakraProvider>
   );
 }
 
