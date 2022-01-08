@@ -37,12 +37,13 @@ function App() {
       id: "radio-4",
       label: "Email",
       description: "This is the description an this is very long blah blaj",
-      allowMultiple: false,
-      halfSize: true,
+
       selections: [
         { label: "name", value: "value" },
         { label: "name1", value: "value1" },
         { label: "name2", value: "value2" },
+        { label: "name3", value: "value3" },
+        { label: "name4", value: "value4" },
       ],
       validation: {
         required: true,
@@ -54,14 +55,14 @@ function App() {
       label: "Email",
       acceptableFiles: [".png", ".jpg", ".pdf"],
       description: "This is the description an this is very long blah blaj",
-      halfSize: true,
+
       validation: {
         required: true,
       },
     },
   ];
   return (
-    <Box width={["100%", "80%"]} margin={"auto"} p={5} mt={4}>
+    <Box width={["100%", "30%"]} margin={"auto"} p={5} mt={4}>
       <BaseForm payload={payload} />
     </Box>
   );

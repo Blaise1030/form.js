@@ -1,17 +1,17 @@
 import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  HStack,
   FormErrorMessage,
+  FormHelperText,
+  FormControl,
+  RadioGroup,
+  FormLabel,
+  Textarea,
   Checkbox,
+  HStack,
   Input,
   VStack,
   Text,
   Radio,
-  RadioGroup,
   Stack,
-  Textarea,
 } from "@chakra-ui/react";
 import { FieldRenderProps } from "react-final-form";
 import { IComponent, IFileInput, IRadioButton, ITextInput } from "./types";
@@ -143,7 +143,7 @@ export function B_RadioInput(): IBaseComponentOutput {
           {payload.label && <FormLabel htmlFor={id}>{label}</FormLabel>}
           <FormHelperText pb={2.5}>{description}</FormHelperText>
           <RadioGroup onChange={onChange} value={value}>
-            <Stack direction={["column", "row"]}>
+            <Stack direction={["column", "row"]} wrap={"wrap"}>
               {(payload as IRadioButton).selections.map(({ label, value }) => (
                 <Radio value={value} key={label}>
                   {label}

@@ -1,4 +1,21 @@
-import { Box, Button, ChakraProvider, Grid } from "@chakra-ui/react";
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Badge,
+  Box,
+  Button,
+  ChakraProvider,
+  extendTheme,
+  Grid,
+  Spacer,
+  Tag,
+  TagLabel,
+} from "@chakra-ui/react";
+import React, { ReactNode, useState } from "react";
 import { Form } from "react-final-form";
 import createComponentMap, { IBaseComponentOutput } from "./BaseComponent";
 import createValidatorMap, { IValidatorOutput } from "./BaseValidator";
@@ -7,15 +24,22 @@ import { IComponent, IValidation } from "./types";
 
 function BaseForm({
   payload,
-  validationPlugin = [],
   componentPlugin = [],
+  validationPlugin = [],
+  buttonIsFullWidth = false,
+  formNotice,
+  confirmationUI = <></>,
 }: {
+  formNotice?: string;
   payload?: IComponent[];
-  validationPlugin?: Array<IValidatorOutput<any, any>>;
+  buttonIsFullWidth?: boolean;
   componentPlugin?: Array<IBaseComponentOutput>;
+  validationPlugin?: Array<IValidatorOutput<any, any>>;
+  confirmationUI?: React.ReactNode;
 }) {
   const comp = createComponentMap(componentPlugin);
   const vali = createValidatorMap(validationPlugin);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const validFields: Array<IComponent> = (payload || []).filter(
     ({ type }) => comp[type]
   );
@@ -55,26 +79,90 @@ function BaseForm({
 
   return (
     <ChakraProvider>
+      {formNotice && (
+        <Tag
+          colorScheme="cyan"
+          variant="subtle"
+          width={"100%"}
+          size={"md"}
+          mb={3}
+          p={3}
+        >
+          {formNotice}
+        </Tag>
+      )}
+      <br />
+
       <Form
         onSubmit={onSubmit}
         validate={validate}
-        render={({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <Grid
-              gap={4}
-              templateColumns="repeat(2, 1fr)"
-              children={validFields?.map((payload: IComponent) => (
-                <BaseWrapper key={payload.id} payload={payload} comp={comp} />
-              ))}
-            />
-            <Box pt={5}>
-              <Button type="submit">Submit</Button>
-            </Box>
-          </form>
-        )}
+        render={({ handleSubmit }) => {
+          return (
+            <form>
+              <BaseAlertDialog
+                onClose={() => setShowConfirmation(false)}
+                isOpen={showConfirmation}
+                children={confirmationUI}
+                onSubmit={handleSubmit}
+              />
+              <Grid
+                gap={4}
+                templateColumns="repeat(2, 1fr)"
+                children={validFields?.map((payload: IComponent) => (
+                  <BaseWrapper key={payload.id} payload={payload} comp={comp} />
+                ))}
+              />
+              <Box pt={5}>
+                <Button
+                  isFullWidth={buttonIsFullWidth}
+                  width={["100%", "min"]}
+                  children={<>Submit</>}
+                  onClick={() => {
+                    if (confirmationUI) setShowConfirmation(true);
+                    else handleSubmit();
+                  }}
+                />
+              </Box>
+            </form>
+          );
+        }}
       />
     </ChakraProvider>
   );
 }
+
+const BaseAlertDialog = ({ children, isOpen, onClose, onSubmit }: any) => {
+  const cancelRef = React.useRef();
+  return (
+    <>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef as any}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            {children}
+            <AlertDialogFooter>
+              <Button ref={cancelRef as any} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                ml={3}
+                colorScheme="blue"
+                onClick={() => {
+                  onSubmit();
+                  onClose();
+                }}
+              >
+                Submit
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
+  );
+};
 
 export default BaseForm;
