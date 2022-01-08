@@ -1,8 +1,10 @@
-import BaseField from "./BaseField";
-
 export interface IValidationRules<T> {
   errorMessage?: string;
   type: T;
+}
+
+export interface IValidation {
+  [id: string]: boolean | string | object | number;
 }
 
 export interface IComponent {
@@ -13,6 +15,7 @@ export interface IComponent {
   halfSize?: boolean;
   isReadonly?: boolean;
   description?: string;
+  validation?: IValidation;
 }
 
 export interface IHeader extends IComponent {
@@ -31,8 +34,6 @@ export interface IRadioButton extends IComponent {
   allowMultiple: boolean;
   validation?: {
     required?: boolean;
-    maximumSelection?: number;
-    minimumSelection?: number;
   };
 }
 
@@ -61,6 +62,7 @@ export interface IFileInput extends IComponent {
   acceptableFiles?: string[];
   validation?: {
     required?: boolean;
+    maximumFileSize?: number;
   };
 }
 
@@ -88,14 +90,4 @@ export interface ISelection extends IComponent {
   validation?: {
     required: boolean;
   };
-}
-
-export interface IFormFields {
-  [key: string]: (payload: IComponent) => IBaseComponent;
-}
-
-export interface IBaseComponent extends IComponent {
-  id: string;
-  render: () => React.ReactNode;
-  validationFunction: (value: any) => { [name: string]: string } | void;
 }
