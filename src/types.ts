@@ -1,24 +1,18 @@
+import BaseField from "./BaseField";
+
 export interface IValidationRules<T> {
   errorMessage?: string;
   type: T;
 }
 
-export interface IValidation {
-  required?: IValidationRules<boolean>;
-  minLength?: IValidationRules<number>;
-  maxLength?: IValidationRules<number>;
-  regex?: IValidationRules<string>;
-  fileType?: IValidationRules<Array<string>>;
-  minDate?: IValidationRules<Date>;
-  maxDate?: IValidationRules<Date>;
-}
-
 export interface IComponent {
-  label: string;
+  type: string;
+  id: string;
+  label?: string;
   order?: number;
   halfSize?: boolean;
   isReadonly?: boolean;
-  description: string;
+  description?: string;
 }
 
 export interface IHeader extends IComponent {
@@ -32,7 +26,7 @@ export interface IHStack extends IComponent {
 }
 
 export interface IRadioButton extends IComponent {
-  type: "RadioButton";
+  type: "radio";
   selections: Array<{ label: string; value: string }>;
   allowMultiple: boolean;
   validation?: {
@@ -43,15 +37,16 @@ export interface IRadioButton extends IComponent {
 }
 
 export interface ICheckbox extends IComponent {
-  type: "Checkbox";
+  type: "checkbox";
   selections: Array<{ label: string; value: string }>;
+  label: string;
   validation?: {
     required?: boolean;
   };
 }
 
 export interface ITextInput extends IComponent {
-  type: "TextInput";
+  type: "text";
   isTextArea?: boolean;
   validation?: {
     required?: boolean;
@@ -62,7 +57,7 @@ export interface ITextInput extends IComponent {
 }
 
 export interface IFileInput extends IComponent {
-  type: "FileInput";
+  type: "file";
   acceptableFiles?: string[];
   validation?: {
     required?: boolean;
@@ -93,4 +88,14 @@ export interface ISelection extends IComponent {
   validation?: {
     required: boolean;
   };
+}
+
+export interface IFormFields {
+  [key: string]: (payload: IComponent) => IBaseComponent;
+}
+
+export interface IBaseComponent extends IComponent {
+  id: string;
+  render: () => React.ReactNode;
+  validationFunction: (value: any) => { [name: string]: string } | void;
 }
