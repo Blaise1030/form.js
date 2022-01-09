@@ -95,10 +95,8 @@ const createValidatorMap = (
     ...validationPlugins,
   ].reduce(
     (prev, curr) => ({
-      [curr.validatorName]: {
-        ...curr,
-      },
       ...prev,
+      [curr.validatorName]: curr,
     }),
     {}
   );

@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import BaseForm from "./BaseForm";
+import { ISelectInput, ITextInput } from "./types";
 
 const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 function App() {
@@ -22,7 +23,17 @@ function App() {
         maxLength: 10,
       },
     },
-    { type: "text", id: "2sss", halfSize: true },
+    {
+      type: "text",
+      id: "2sss",
+      halfSize: true,
+      validation: {
+        regex: {
+          regex: "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$",
+          patternName: "email",
+        },
+      },
+    } as ITextInput,
     {
       type: "checkbox",
       id: "checkbox-3",
@@ -61,6 +72,26 @@ function App() {
         required: true,
       },
     },
+    {
+      type: "select",
+      id: "select-5",
+      label: "Email",
+      description: "This is the description an this is very long blah blaj",
+      selections: [
+        {
+          value: "1",
+          label: "This is the lable1",
+        },
+        {
+          value: "2",
+          label: "This is the lable2",
+        },
+        {
+          value: "3",
+          label: "This is the lable3",
+        },
+      ],
+    } as ISelectInput,
   ];
 
   return (
@@ -68,10 +99,10 @@ function App() {
       <BaseForm
         onSubmit={async (values) => {
           await sleep(4000);
+          console.log(values);
         }}
         payload={payload as any}
         validationPlugin={[]}
-        componentPlugin={[]}
         showConfirmAlert
       />
     </Box>

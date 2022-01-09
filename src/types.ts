@@ -50,7 +50,7 @@ export interface ITextInput extends IComponent {
     required?: boolean;
     maxLength?: number;
     minLength?: number;
-    regex?: string;
+    regex?: string | { regex: string; patternName: string };
   };
 }
 
@@ -64,7 +64,7 @@ export interface IFileInput extends IComponent {
 }
 
 export interface IDatePicker extends IComponent {
-  type: "DatePicker";
+  type: "date";
   validation?: {
     required?: boolean;
     maxDate?: Date;
@@ -72,18 +72,9 @@ export interface IDatePicker extends IComponent {
   };
 }
 
-export interface IDateRange extends IComponent {
-  type: "DateRange";
-  validation: {
-    required?: boolean;
-    maxDate?: Date;
-    minDate?: Date;
-  };
-}
-
-export interface ISelection extends IComponent {
-  type: "Selection";
-  selections: Array<{ name: string; label: string }>;
+export interface ISelectInput extends IComponent {
+  type: "select";
+  selections: Array<{ label: string; value: any }>;
   validation?: {
     required: boolean;
   };

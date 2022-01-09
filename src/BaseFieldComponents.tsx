@@ -12,10 +12,17 @@ import {
   Text,
   Radio,
   Stack,
+  Select,
 } from "@chakra-ui/react";
 import React from "react";
 import { FieldRenderProps } from "react-final-form";
-import { IComponent, IFileInput, IRadioButton, ITextInput } from "./types";
+import {
+  IComponent,
+  IFileInput,
+  IRadioButton,
+  ISelectInput,
+  ITextInput,
+} from "./types";
 
 export interface IBaseComponentOutput {
   type: string;
@@ -216,6 +223,45 @@ export function B_TextInput() {
   };
 }
 
+export function B_SelectInput() {
+  return {
+    type: "select",
+    render: ({
+      props,
+      payload,
+      id,
+    }: {
+      props: FieldRenderProps<any>;
+      payload: IComponent;
+      id: string;
+    }) => {
+      const { error, touched } = props.meta;
+      const { onChange, value } = props.input;
+      const { label, description, selections, defaultValue } =
+        payload as ISelectInput;
+      const isInvalid = Boolean(error && touched);
+
+      return (
+        <FormControl
+          isRequired={Boolean(payload?.validation?.required)}
+          isInvalid={isInvalid}
+        >
+          {label && <FormLabel htmlFor={id}>{label}</FormLabel>}
+          <FormHelperText pb={2.5}>{description}</FormHelperText>
+          <Select defaultValue={defaultValue} onChange={onChange} value={value}>
+            {selections.map(({ label, value }) => (
+              <option key={label} value={value}>
+                {label}
+              </option>
+            ))}
+          </Select>
+          {isInvalid && <FormErrorMessage>{error}</FormErrorMessage>}
+        </FormControl>
+      );
+    },
+  };
+}
+
 const createComponentMap = (
   validationPlugins: Array<IBaseComponentOutput> = []
 ): {
@@ -227,11 +273,12 @@ const createComponentMap = (
     B_FileInput(),
     B_RadioInput(),
     B_TextInput(),
+    B_SelectInput(),
     ...validationPlugins,
   ].reduce(
     (prev, curr) => ({
-      [curr.type]: curr.render,
       ...prev,
+      [curr.type]: curr.render,
     }),
     {}
   );
