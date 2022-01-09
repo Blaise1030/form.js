@@ -1,9 +1,26 @@
 {
-  "name": "react-forms-builder",
-  "version": "0.0.0",
+  "name": "react-forms-js",
+  "description": "A thin wrapper over React Final Form and Chakra UI to build forms with JSON payload data.",
+  "author": "Blaise",
+  "keywords": [
+    "react",
+    "forms"
+  ],
+  "version": "0.1.0",
+  "private": false,
+  "main": "dist/index.ts",
+  "module": "dist/index.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blaise1030/form.js.git"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,6 +34,9 @@
     "react-final-form": "^6.5.7"
   },
   "devDependencies": {
+    "@babel/cli": "^7.16.7",
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@vitejs/plugin-react": "^1.0.7",
