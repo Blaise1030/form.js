@@ -8,6 +8,7 @@ import {
   Button,
   Tag,
   Box,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React from "react";
 import {
@@ -53,11 +54,28 @@ export const BaseFormNotice: React.FC<IFormNoticeComponentProps> = ({
   );
 };
 
+export const BaseLoadingScreen = () => {
+  return (
+    <Box
+      position={"absolute"}
+      bgColor={"white"}
+      height={"100%"}
+      width={"100%"}
+      opacity={0.5}
+      zIndex={2}
+      left={0}
+      top={0}
+    />
+  );
+};
+
 export const BaseAlertDialog: React.FC<IBaseAlertDialogProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  submitting,
 }) => {
+  const [isLargerThan420] = useMediaQuery("(min-width: 420px)");
   const cancelRef = React.useRef();
   const submitData = () => {
     onSubmit();
@@ -67,9 +85,10 @@ export const BaseAlertDialog: React.FC<IBaseAlertDialogProps> = ({
   return (
     <>
       <AlertDialog
-        isOpen={isOpen}
         leastDestructiveRef={cancelRef as any}
         onClose={onClose}
+        isOpen={isOpen}
+        size={isLargerThan420 ? "md" : "full"}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
@@ -83,7 +102,12 @@ export const BaseAlertDialog: React.FC<IBaseAlertDialogProps> = ({
               <Button ref={cancelRef as any} onClick={onClose}>
                 Cancel
               </Button>
-              <Button colorScheme="blue" onClick={submitData} ml={3}>
+              <Button
+                isLoading={submitting}
+                onClick={submitData}
+                colorScheme="blue"
+                ml={3}
+              >
                 Submit
               </Button>
             </AlertDialogFooter>

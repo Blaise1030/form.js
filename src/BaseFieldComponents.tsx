@@ -13,7 +13,7 @@ import {
   Radio,
   Stack,
 } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import React from "react";
 import { FieldRenderProps } from "react-final-form";
 import { IComponent, IFileInput, IRadioButton, ITextInput } from "./types";
 
@@ -75,7 +75,11 @@ export function B_CheckboxComponent(): IBaseComponentOutput {
           <FormLabel htmlFor={id}>{label}</FormLabel>
           <FormHelperText pb={2.5}>{description}</FormHelperText>
           <HStack align={"center"}>
-            <Checkbox onChange={onChange} value={value} name={id} />
+            <Checkbox
+              defaultChecked={payload.defaultValue}
+              onChange={onChange}
+              value={value}
+            />
             <FormHelperText>{payload.label}</FormHelperText>
           </HStack>
           {isInvalid && <FormErrorMessage>{error}</FormErrorMessage>}
@@ -145,7 +149,11 @@ export function B_RadioInput(): IBaseComponentOutput {
         >
           {payload.label && <FormLabel htmlFor={id}>{label}</FormLabel>}
           <FormHelperText pb={2.5}>{description}</FormHelperText>
-          <RadioGroup onChange={onChange} value={value}>
+          <RadioGroup
+            defaultValue={payload.defaultValue}
+            onChange={onChange}
+            value={value}
+          >
             <Stack direction={["column", "row"]} wrap={"wrap"}>
               {(payload as IRadioButton).selections.map(({ label, value }) => (
                 <Radio value={value} key={label}>

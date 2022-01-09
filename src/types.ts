@@ -12,6 +12,7 @@ export interface IComponent {
   isReadonly?: boolean;
   description?: string;
   validation?: IValidation;
+  defaultValue?: any;
 }
 
 export interface IHeader extends IComponent {
@@ -90,11 +91,14 @@ export interface ISelection extends IComponent {
 
 //Updatetable Base Form Components,
 
+export interface IBaseLoadingScreenProps {}
+
 export interface IFormNoticeComponentProps {
   formNotice: string;
 }
 export interface IBaseAlertDialogProps {
   isOpen: boolean;
+  submitting: boolean;
   onClose: () => void;
   onSubmit: () => void;
 }

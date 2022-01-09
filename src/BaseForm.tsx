@@ -4,10 +4,11 @@ import createComponentMap, {
 import {
   BaseAlertDialog,
   BaseFormNotice,
+  BaseLoadingScreen,
   BaseSubmitButton,
 } from "./BaseFormComponents";
 import createValidatorMap, { IValidatorOutput } from "./BaseValidator";
-import { Box, Button, ChakraProvider, Grid } from "@chakra-ui/react";
+import { Box, ChakraProvider, Grid } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Form } from "react-final-form";
 import BaseWrapper from "./BaseWrapper";
@@ -17,11 +18,13 @@ import {
   IValidation,
   IComponent,
   IBaseSubmitButtonProps,
+  IBaseLoadingScreenProps,
 } from "./types";
 import { ValidationErrors } from "final-form";
 
 function BaseForm({
   payload,
+  onSubmit,
   formNotice,
   componentPlugin = [],
   validationPlugin = [],
@@ -29,16 +32,21 @@ function BaseForm({
   FormNoticeUI = BaseFormNotice,
   ConfirmationUI = BaseAlertDialog,
   SubmitButtonUI = BaseSubmitButton,
+  LoadingScreenUI = BaseLoadingScreen,
+  showLoadingScreenOnSubmit = true,
 }: {
   formNotice?: string;
   payload: IComponent[];
   useChakraUI?: boolean;
   showConfirmAlert?: boolean;
+  showLoadingScreenOnSubmit?: boolean;
   componentPlugin?: Array<IBaseComponentOutput>;
   ConfirmationUI?: React.FC<IBaseAlertDialogProps>;
   FormNoticeUI?: React.FC<IFormNoticeComponentProps>;
   SubmitButtonUI?: React.FC<IBaseSubmitButtonProps>;
+  LoadingScreenUI?: React.FC<IBaseLoadingScreenProps>;
   validationPlugin?: Array<IValidatorOutput<any, any>>;
+  onSubmit: (values: { [key: string]: any }) => any | Promise<any>;
 }) {
   const comp = createComponentMap(componentPlugin);
   const vali = createValidatorMap(validationPlugin);
@@ -46,11 +54,6 @@ function BaseForm({
   const validFields: Array<IComponent> = (payload || []).filter(
     ({ type }) => comp[type]
   );
-
-  const onSubmit = (e: any) => {
-    console.log(e);
-    return {};
-  };
 
   const validate = (data: any): ValidationErrors | Promise<ValidationErrors> =>
     validFields.reduce(
@@ -93,11 +96,13 @@ function BaseForm({
             else handleSubmit();
           };
           return (
-            <Box>
+            <Box width={"100%"} position="relative">
+              {submitting && showLoadingScreenOnSubmit && <LoadingScreenUI />}
               <ConfirmationUI
                 onClose={() => setShowConfirmation(false)}
                 isOpen={showConfirmation}
                 onSubmit={handleSubmit}
+                submitting={submitting}
               />
               <Grid
                 gap={4}

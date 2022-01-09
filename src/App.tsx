@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import BaseForm from "./BaseForm";
-import { ICheckbox, IRadioButton, ITextInput } from "./types";
 
+const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 function App() {
   const payload = [
     {
@@ -21,7 +21,7 @@ function App() {
         minLength: 2,
         maxLength: 10,
       },
-    } as ITextInput,
+    },
     { type: "text", id: "2sss", halfSize: true },
     {
       type: "checkbox",
@@ -29,10 +29,11 @@ function App() {
       label: "Email",
       halfSize: true,
       description: "This is the description an this is very long blah blaj",
+      defaultValue: true,
       validation: {
         required: true,
       },
-    } as ICheckbox,
+    },
     {
       type: "radio",
       id: "radio-4",
@@ -45,10 +46,11 @@ function App() {
         { label: "name3", value: "value3" },
         { label: "name4", value: "value4" },
       ],
+      defaultValue: "value2",
       validation: {
         required: true,
       },
-    } as IRadioButton,
+    },
     {
       type: "file",
       id: "file-5",
@@ -60,10 +62,14 @@ function App() {
       },
     },
   ];
+
   return (
-    <Box width={["100%", "30%"]} margin={"auto"} p={5} mt={4}>
+    <Box width={["100%"]} margin={"auto"} p={14} mt={4}>
       <BaseForm
-        payload={payload}
+        onSubmit={async (values) => {
+          await sleep(4000);
+        }}
+        payload={payload as any}
         validationPlugin={[]}
         componentPlugin={[]}
         showConfirmAlert

@@ -19,6 +19,7 @@ const BaseWrapper = React.memo(
       key={payload.id}
       children={
         <Field
+          initialValue={payload.type !== "file" ? payload?.defaultValue : null}
           type={payload.type}
           name={payload.id}
           children={(props) =>
