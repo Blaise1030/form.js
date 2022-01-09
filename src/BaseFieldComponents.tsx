@@ -62,9 +62,6 @@ export function B_CheckboxComponent(): IBaseComponentOutput {
       payload: IComponent;
       id: string;
     }) => {
-      const renderCounter = useRef(0);
-      renderCounter.current = renderCounter.current + 1;
-
       const { error, touched } = props.meta;
       const { onChange, value } = props.input;
       const { label, description } = payload;
