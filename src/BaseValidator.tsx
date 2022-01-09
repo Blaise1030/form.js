@@ -89,9 +89,9 @@ const createValidatorMap = (
   [
     B_Required(),
     B_EqLength(),
-    B_MatchRegex(),
     B_MinLength(),
     B_MaxLength(),
+    B_MatchRegex(),
     ...validationPlugins,
   ].reduce(
     (prev, curr) => ({

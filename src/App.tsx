@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import BaseForm from "./BaseForm";
-import { ISelectInput, ITextInput } from "./types";
+import { IDatePicker, ISelectInput, ITextInput } from "./types";
 
 const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 function App() {
@@ -77,6 +77,7 @@ function App() {
       id: "select-5",
       label: "Email",
       description: "This is the description an this is very long blah blaj",
+      defaultValue: "3",
       selections: [
         {
           value: "1",
@@ -92,10 +93,16 @@ function App() {
         },
       ],
     } as ISelectInput,
+    {
+      type: "date",
+      id: "data-5",
+      label: "Email",
+      description: "This is the description an this is very long blah blaj",
+    } as IDatePicker,
   ];
 
   return (
-    <Box width={["100%"]} margin={"auto"} p={14} mt={4}>
+    <Box width={["100%", "80%"]} margin={"auto"} p={14} mt={4}>
       <BaseForm
         payload={payload as any}
         validationPlugin={[]}

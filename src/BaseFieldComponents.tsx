@@ -4,6 +4,7 @@ import {
   IBaseComponentOutput,
   IBaseComponentProps,
   IComponent,
+  IDatePicker,
   IFileInput,
   IRadioButton,
   ISelectInput,
@@ -228,8 +229,7 @@ export function B_SelectInput() {
     }) => {
       const { error, touched } = props.meta;
       const { onChange, value } = props.input;
-      const { label, description, selections, defaultValue } =
-        payload as ISelectInput;
+      const { label, description, selections } = payload as ISelectInput;
       const isInvalid = Boolean(error && touched);
 
       return (
@@ -239,13 +239,45 @@ export function B_SelectInput() {
         >
           {label && <FormLabel htmlFor={id}>{label}</FormLabel>}
           <FormHelperText pb={2.5}>{description}</FormHelperText>
-          <Select defaultValue={defaultValue} onChange={onChange} value={value}>
+          <Select onChange={onChange} value={value}>
             {selections.map(({ label, value }) => (
               <option key={label} value={value}>
                 {label}
               </option>
             ))}
           </Select>
+          {isInvalid && <FormErrorMessage>{error}</FormErrorMessage>}
+        </FormControl>
+      );
+    },
+  };
+}
+
+export function B_DatePicker() {
+  return {
+    type: "date",
+    render: ({
+      props,
+      payload,
+      id,
+    }: {
+      props: FieldRenderProps<any>;
+      payload: IComponent;
+      id: string;
+    }) => {
+      const { error, touched } = props.meta;
+      const { onChange, value } = props.input;
+      const isInvalid = Boolean(error && touched);
+      const { label, description, defaultValue } = payload as IDatePicker;
+
+      return (
+        <FormControl
+          isRequired={Boolean(payload?.validation?.required)}
+          isInvalid={isInvalid}
+        >
+          {label && <FormLabel htmlFor={id}>{label}</FormLabel>}
+          <FormHelperText pb={2.5}>{description}</FormHelperText>
+          <Input onChange={onChange} type={"date"} value={value} />
           {isInvalid && <FormErrorMessage>{error}</FormErrorMessage>}
         </FormControl>
       );
@@ -260,11 +292,12 @@ const createComponentMap = (
 } =>
   [
     B_Header(),
-    B_CheckboxComponent(),
     B_FileInput(),
-    B_RadioInput(),
     B_TextInput(),
+    B_RadioInput(),
+    B_DatePicker(),
     B_SelectInput(),
+    B_CheckboxComponent(),
     ...validationPlugins,
   ].reduce(
     (prev, curr) => ({
