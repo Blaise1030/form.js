@@ -2,7 +2,7 @@
 
 ---
 
-A thin wrapper over React Final Form and Chakra UI to build forms with JSON payload data.
+A thin wrapper over [React Final Form](https://final-form.org/react) and [Chakra UI](https://chakra-ui.com/) to build forms with JSON payload data.
 
 ### Motivation
 
