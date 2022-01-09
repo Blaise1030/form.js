@@ -75,9 +75,6 @@ export function B_CheckboxComponent(): IBaseComponentOutput {
           isRequired={Boolean(payload?.validation?.required)}
           isInvalid={isInvalid}
         >
-          <h1>
-            Renders: {renderCounter.current}, {props.message}
-          </h1>
           <FormLabel htmlFor={id}>{label}</FormLabel>
           <FormHelperText pb={2.5}>{description}</FormHelperText>
           <HStack align={"center"}>
