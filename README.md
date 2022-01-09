@@ -115,7 +115,9 @@ Simple example of using the form
         }
     />
 ```
-Sample
+
+### Sample Form generated from payload above
+
 ![Screenshot 2022-01-09 at 6 15 38 PM](https://user-images.githubusercontent.com/61928648/148678102-0f762b7d-4de6-4598-8f04-06b76109c328.png)
 
 **IComponent**
