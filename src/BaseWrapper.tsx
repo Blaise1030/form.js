@@ -1,5 +1,7 @@
 import { GridItem } from "@chakra-ui/react";
+import React from "react";
 import { FieldRenderProps, Field } from "react-final-form";
+import { IBaseComponentProps } from "./BaseComponent";
 import { IComponent } from "./types";
 
 const BaseWrapper = ({
@@ -8,11 +10,7 @@ const BaseWrapper = ({
 }: {
   payload: IComponent;
   comp: {
-    [type: string]: (p: {
-      props: FieldRenderProps<any, HTMLElement, any>;
-      payload: IComponent;
-      id: string;
-    }) => React.ReactNode;
+    [type: string]: React.FC<IBaseComponentProps>;
   };
 }) => (
   <GridItem

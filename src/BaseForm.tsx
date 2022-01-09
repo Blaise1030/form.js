@@ -3,19 +3,14 @@ import {
   AlertDialogBody,
   AlertDialogContent,
   AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogOverlay,
-  Badge,
   Box,
   Button,
   ChakraProvider,
-  extendTheme,
   Grid,
-  Spacer,
   Tag,
-  TagLabel,
 } from "@chakra-ui/react";
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import { Form } from "react-final-form";
 import createComponentMap, { IBaseComponentOutput } from "./BaseComponent";
 import createValidatorMap, { IValidatorOutput } from "./BaseValidator";
@@ -79,20 +74,8 @@ function BaseForm({
 
   return (
     <ChakraProvider>
-      {formNotice && (
-        <Tag
-          colorScheme="cyan"
-          variant="subtle"
-          width={"100%"}
-          size={"md"}
-          mb={3}
-          p={3}
-        >
-          {formNotice}
-        </Tag>
-      )}
+      <BaseFormNotice formNotice={formNotice || ""} />
       <br />
-
       <Form
         onSubmit={onSubmit}
         validate={validate}
@@ -130,6 +113,31 @@ function BaseForm({
     </ChakraProvider>
   );
 }
+
+interface IFormNoticeComponentProps {
+  formNotice: string;
+}
+
+const BaseFormNotice: React.FC<IFormNoticeComponentProps> = ({
+  formNotice,
+}) => {
+  return (
+    <>
+      {formNotice && (
+        <Tag
+          colorScheme="cyan"
+          variant="subtle"
+          width={"100%"}
+          size={"md"}
+          mb={3}
+          p={3}
+        >
+          {formNotice}
+        </Tag>
+      )}
+    </>
+  );
+};
 
 const BaseAlertDialog = ({ children, isOpen, onClose, onSubmit }: any) => {
   const cancelRef = React.useRef();

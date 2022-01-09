@@ -1,8 +1,3 @@
-export interface IValidationRules<T> {
-  errorMessage?: string;
-  type: T;
-}
-
 export interface IValidation {
   [id: string]: boolean | string | object | number;
 }

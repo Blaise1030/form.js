@@ -13,16 +13,19 @@ import {
   Radio,
   Stack,
 } from "@chakra-ui/react";
+import React from "react";
 import { FieldRenderProps } from "react-final-form";
 import { IComponent, IFileInput, IRadioButton, ITextInput } from "./types";
 
 export interface IBaseComponentOutput {
   type: string;
-  render: (p: {
-    props: FieldRenderProps<any>;
-    payload: IComponent;
-    id: string;
-  }) => React.ReactNode;
+  render: React.FC<IBaseComponentProps>;
+}
+
+export interface IBaseComponentProps {
+  props: FieldRenderProps<any>;
+  payload: IComponent;
+  id: string;
 }
 
 export function B_Header(): IBaseComponentOutput {
@@ -208,11 +211,7 @@ export function B_TextInput() {
 const createComponentMap = (
   validationPlugins: Array<IBaseComponentOutput> = []
 ): {
-  [type: string]: (p: {
-    props: FieldRenderProps<any>;
-    payload: IComponent;
-    id: string;
-  }) => React.ReactNode;
+  [type: string]: React.FC<IBaseComponentProps>;
 } =>
   [
     B_Header(),
