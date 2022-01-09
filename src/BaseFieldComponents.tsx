@@ -277,7 +277,7 @@ export function B_DatePicker() {
         >
           {label && <FormLabel htmlFor={id}>{label}</FormLabel>}
           <FormHelperText pb={2.5}>{description}</FormHelperText>
-          <Input onChange={onChange} type={"date"} value={value} />
+          <Input onChange={onChange} type={"datetime-local"} value={value} />
           {isInvalid && <FormErrorMessage>{error}</FormErrorMessage>}
         </FormControl>
       );
