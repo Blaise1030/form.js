@@ -1,3 +1,14 @@
+import React from "react";
+import { FieldRenderProps } from "react-final-form";
+import {
+  IBaseComponentOutput,
+  IBaseComponentProps,
+  IComponent,
+  IFileInput,
+  IRadioButton,
+  ISelectInput,
+  ITextInput,
+} from "./types";
 import {
   FormErrorMessage,
   FormHelperText,
@@ -14,26 +25,6 @@ import {
   Stack,
   Select,
 } from "@chakra-ui/react";
-import React from "react";
-import { FieldRenderProps } from "react-final-form";
-import {
-  IComponent,
-  IFileInput,
-  IRadioButton,
-  ISelectInput,
-  ITextInput,
-} from "./types";
-
-export interface IBaseComponentOutput {
-  type: string;
-  render: React.FC<IBaseComponentProps>;
-}
-
-export interface IBaseComponentProps {
-  props: FieldRenderProps<any>;
-  payload: IComponent;
-  id: string;
-}
 
 export function B_Header(): IBaseComponentOutput {
   return {

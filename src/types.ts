@@ -1,3 +1,5 @@
+import { FieldRenderProps } from "react-final-form";
+
 // Form Field components
 export interface IValidation {
   [id: string]: boolean | string | object | number;
@@ -78,6 +80,19 @@ export interface ISelectInput extends IComponent {
   validation?: {
     required: boolean;
   };
+}
+
+// Field Components
+
+export interface IBaseComponentOutput {
+  render: React.FC<IBaseComponentProps>;
+  type: string;
+}
+
+export interface IBaseComponentProps {
+  props: FieldRenderProps<any>;
+  payload: IComponent;
+  id: string;
 }
 
 //Updatetable Base Form Components,

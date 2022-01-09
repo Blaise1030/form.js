@@ -97,13 +97,13 @@ function App() {
   return (
     <Box width={["100%"]} margin={"auto"} p={14} mt={4}>
       <BaseForm
+        payload={payload as any}
+        validationPlugin={[]}
+        showConfirmAlert
         onSubmit={async (values) => {
           await sleep(4000);
           console.log(values);
         }}
-        payload={payload as any}
-        validationPlugin={[]}
-        showConfirmAlert
       />
     </Box>
   );

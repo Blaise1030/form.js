@@ -1,8 +1,7 @@
 import { GridItem } from "@chakra-ui/react";
 import React from "react";
 import { Field } from "react-final-form";
-import { IBaseComponentProps } from "./BaseFieldComponents";
-import { IComponent } from "./types";
+import { IBaseComponentProps, IComponent } from "./types";
 
 const BaseWrapper = React.memo(
   ({

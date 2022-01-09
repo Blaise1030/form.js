@@ -1,14 +1,7 @@
-import createComponentMap, {
-  IBaseComponentOutput,
-} from "./BaseFieldComponents";
-import {
-  BaseAlertDialog,
-  BaseFormNotice,
-  BaseLoadingScreen,
-  BaseSubmitButton,
-} from "./BaseFormComponents";
 import createValidatorMap, { IValidatorOutput } from "./BaseValidator";
 import { Box, ChakraProvider, Grid } from "@chakra-ui/react";
+import createComponentMap from "./BaseFieldComponents";
+import { ValidationErrors } from "final-form";
 import React, { useState } from "react";
 import { Form } from "react-final-form";
 import BaseWrapper from "./BaseWrapper";
@@ -19,8 +12,14 @@ import {
   IComponent,
   IBaseSubmitButtonProps,
   IBaseLoadingScreenProps,
+  IBaseComponentOutput,
 } from "./types";
-import { ValidationErrors } from "final-form";
+import {
+  BaseAlertDialog,
+  BaseFormNotice,
+  BaseLoadingScreen,
+  BaseSubmitButton,
+} from "./BaseFormComponents";
 
 function BaseForm({
   payload,
