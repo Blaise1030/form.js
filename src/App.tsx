@@ -22,11 +22,12 @@ function App() {
         maxLength: 10,
       },
     } as ITextInput,
-    { type: "text", id: "2sss" },
+    { type: "text", id: "2sss", halfSize: true },
     {
       type: "checkbox",
       id: "checkbox-3",
       label: "Email",
+      halfSize: true,
       description: "This is the description an this is very long blah blaj",
       validation: {
         required: true,
@@ -37,7 +38,6 @@ function App() {
       id: "radio-4",
       label: "Email",
       description: "This is the description an this is very long blah blaj",
-
       selections: [
         { label: "name", value: "value" },
         { label: "name1", value: "value1" },
@@ -55,7 +55,6 @@ function App() {
       label: "Email",
       acceptableFiles: [".png", ".jpg", ".pdf"],
       description: "This is the description an this is very long blah blaj",
-
       validation: {
         required: true,
       },
@@ -63,7 +62,12 @@ function App() {
   ];
   return (
     <Box width={["100%", "30%"]} margin={"auto"} p={5} mt={4}>
-      <BaseForm payload={payload} />
+      <BaseForm
+        payload={payload}
+        validationPlugin={[]}
+        componentPlugin={[]}
+        showConfirmAlert
+      />
     </Box>
   );
 }

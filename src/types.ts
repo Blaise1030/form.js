@@ -1,3 +1,4 @@
+// Form Field components
 export interface IValidation {
   [id: string]: boolean | string | object | number;
 }
@@ -85,4 +86,20 @@ export interface ISelection extends IComponent {
   validation?: {
     required: boolean;
   };
+}
+
+//Updatetable Base Form Components,
+
+export interface IFormNoticeComponentProps {
+  formNotice: string;
+}
+export interface IBaseAlertDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: () => void;
+}
+
+export interface IBaseSubmitButtonProps {
+  onSubmit: () => void;
+  submitting: boolean;
 }

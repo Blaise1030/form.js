@@ -1,36 +1,44 @@
+import createComponentMap, {
+  IBaseComponentOutput,
+} from "./BaseFieldComponents";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogOverlay,
-  Box,
-  Button,
-  ChakraProvider,
-  Grid,
-  Tag,
-} from "@chakra-ui/react";
+  BaseAlertDialog,
+  BaseFormNotice,
+  BaseSubmitButton,
+} from "./BaseFormComponents";
+import createValidatorMap, { IValidatorOutput } from "./BaseValidator";
+import { Box, Button, ChakraProvider, Grid } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Form } from "react-final-form";
-import createComponentMap, { IBaseComponentOutput } from "./BaseComponent";
-import createValidatorMap, { IValidatorOutput } from "./BaseValidator";
 import BaseWrapper from "./BaseWrapper";
-import { IComponent, IValidation } from "./types";
+import {
+  IFormNoticeComponentProps,
+  IBaseAlertDialogProps,
+  IValidation,
+  IComponent,
+  IBaseSubmitButtonProps,
+} from "./types";
+import { ValidationErrors } from "final-form";
 
 function BaseForm({
   payload,
+  formNotice,
   componentPlugin = [],
   validationPlugin = [],
-  buttonIsFullWidth = false,
-  formNotice,
-  confirmationUI = <></>,
+  showConfirmAlert = false,
+  FormNoticeUI = BaseFormNotice,
+  ConfirmationUI = BaseAlertDialog,
+  SubmitButtonUI = BaseSubmitButton,
 }: {
   formNotice?: string;
-  payload?: IComponent[];
-  buttonIsFullWidth?: boolean;
+  payload: IComponent[];
+  useChakraUI?: boolean;
+  showConfirmAlert?: boolean;
   componentPlugin?: Array<IBaseComponentOutput>;
+  ConfirmationUI?: React.FC<IBaseAlertDialogProps>;
+  FormNoticeUI?: React.FC<IFormNoticeComponentProps>;
+  SubmitButtonUI?: React.FC<IBaseSubmitButtonProps>;
   validationPlugin?: Array<IValidatorOutput<any, any>>;
-  confirmationUI?: React.ReactNode;
 }) {
   const comp = createComponentMap(componentPlugin);
   const vali = createValidatorMap(validationPlugin);
@@ -44,7 +52,7 @@ function BaseForm({
     return {};
   };
 
-  const validate = (data: any) =>
+  const validate = (data: any): ValidationErrors | Promise<ValidationErrors> =>
     validFields.reduce(
       (prev: { [type: string]: string }, comp: IComponent) => ({
         ..._checkFieldValidation(comp?.validation, data, comp.id),
@@ -74,18 +82,21 @@ function BaseForm({
 
   return (
     <ChakraProvider>
-      <BaseFormNotice formNotice={formNotice || ""} />
+      {formNotice && <FormNoticeUI formNotice={formNotice || ""} />}
       <br />
       <Form
         onSubmit={onSubmit}
         validate={validate}
-        render={({ handleSubmit }) => {
+        render={({ handleSubmit, valid, submitting }) => {
+          const onSubmitButtonClick = () => {
+            if (valid && showConfirmAlert) setShowConfirmation(true);
+            else handleSubmit();
+          };
           return (
-            <form>
-              <BaseAlertDialog
+            <Box>
+              <ConfirmationUI
                 onClose={() => setShowConfirmation(false)}
                 isOpen={showConfirmation}
-                children={confirmationUI}
                 onSubmit={handleSubmit}
               />
               <Grid
@@ -95,82 +106,16 @@ function BaseForm({
                   <BaseWrapper key={payload.id} payload={payload} comp={comp} />
                 ))}
               />
-              <Box pt={5}>
-                <Button
-                  isFullWidth={buttonIsFullWidth}
-                  width={["100%", "min"]}
-                  children={<>Submit</>}
-                  onClick={() => {
-                    if (confirmationUI) setShowConfirmation(true);
-                    else handleSubmit();
-                  }}
-                />
-              </Box>
-            </form>
+              <SubmitButtonUI
+                onSubmit={onSubmitButtonClick}
+                submitting={submitting}
+              />
+            </Box>
           );
         }}
       />
     </ChakraProvider>
   );
 }
-
-interface IFormNoticeComponentProps {
-  formNotice: string;
-}
-
-const BaseFormNotice: React.FC<IFormNoticeComponentProps> = ({
-  formNotice,
-}) => {
-  return (
-    <>
-      {formNotice && (
-        <Tag
-          colorScheme="cyan"
-          variant="subtle"
-          width={"100%"}
-          size={"md"}
-          mb={3}
-          p={3}
-        >
-          {formNotice}
-        </Tag>
-      )}
-    </>
-  );
-};
-
-const BaseAlertDialog = ({ children, isOpen, onClose, onSubmit }: any) => {
-  const cancelRef = React.useRef();
-  return (
-    <>
-      <AlertDialog
-        isOpen={isOpen}
-        leastDestructiveRef={cancelRef as any}
-        onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            {children}
-            <AlertDialogFooter>
-              <Button ref={cancelRef as any} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button
-                ml={3}
-                colorScheme="blue"
-                onClick={() => {
-                  onSubmit();
-                  onClose();
-                }}
-              >
-                Submit
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </>
-  );
-};
 
 export default BaseForm;

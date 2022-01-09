@@ -13,7 +13,7 @@ import {
   Radio,
   Stack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
 import { FieldRenderProps } from "react-final-form";
 import { IComponent, IFileInput, IRadioButton, ITextInput } from "./types";
 
@@ -62,6 +62,9 @@ export function B_CheckboxComponent(): IBaseComponentOutput {
       payload: IComponent;
       id: string;
     }) => {
+      const renderCounter = useRef(0);
+      renderCounter.current = renderCounter.current + 1;
+
       const { error, touched } = props.meta;
       const { onChange, value } = props.input;
       const { label, description } = payload;
@@ -72,6 +75,9 @@ export function B_CheckboxComponent(): IBaseComponentOutput {
           isRequired={Boolean(payload?.validation?.required)}
           isInvalid={isInvalid}
         >
+          <h1>
+            Renders: {renderCounter.current}, {props.message}
+          </h1>
           <FormLabel htmlFor={id}>{label}</FormLabel>
           <FormHelperText pb={2.5}>{description}</FormHelperText>
           <HStack align={"center"}>
