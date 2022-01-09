@@ -95,7 +95,7 @@ function App() {
     } as ISelectInput,
     {
       type: "date",
-      id: "data-5",
+      id: "date-5",
       label: "Email",
       description: "This is the description an this is very long blah blaj",
     } as IDatePicker,

@@ -1,4 +1,4 @@
-import createValidatorMap, { IValidatorOutput } from "./BaseValidator";
+import createValidatorMap from "./BaseValidator";
 import { Box, ChakraProvider, Grid } from "@chakra-ui/react";
 import createComponentMap from "./BaseFieldComponents";
 import { ValidationErrors } from "final-form";
@@ -13,6 +13,7 @@ import {
   IBaseSubmitButtonProps,
   IBaseLoadingScreenProps,
   IBaseComponentOutput,
+  IValidatorOutput,
 } from "./types";
 import {
   BaseAlertDialog,

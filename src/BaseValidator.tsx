@@ -1,12 +1,4 @@
-export interface IValidatorOutput<T, V> {
-  validateFunc: (
-    inputValue: T,
-    ruleValue: V,
-    fieldName: string
-  ) => void | { [_: string]: string };
-  validatorName: string;
-  dataType: string[];
-}
+import { IValidatorOutput } from "./types";
 
 function B_Required(): IValidatorOutput<any, boolean> {
   return {

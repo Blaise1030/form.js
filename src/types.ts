@@ -21,12 +21,6 @@ export interface IHeader extends IComponent {
   type: "Header";
 }
 
-export interface IHStack extends IComponent {
-  type: "HStack";
-  right: IComponent;
-  left: IComponent;
-}
-
 export interface IRadioButton extends IComponent {
   type: "radio";
   selections: Array<{ label: string; value: string }>;
@@ -112,4 +106,15 @@ export interface IBaseAlertDialogProps {
 export interface IBaseSubmitButtonProps {
   onSubmit: () => void;
   submitting: boolean;
+}
+
+// Validator
+export interface IValidatorOutput<T, V> {
+  validateFunc: (
+    inputValue: T,
+    ruleValue: V,
+    fieldName: string
+  ) => void | { [_: string]: string };
+  validatorName: string;
+  dataType: string[];
 }
